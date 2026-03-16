@@ -147,7 +147,6 @@
         let state = { qList: [], currentQ: null, scores: [0,0,0,0], turn: 0, qCount: 0, timer: null };
         const colors = ['#f87171', '#fb923c', '#facc15', '#a3e635', '#4ade80', '#22d3ee', '#60a5fa', '#a78bfa'];
 
-        // دوال الرسوميات المحفوظة
         function createAnalogClock(h, m) {
             let hAngle = (h % 12 + m / 60) * 30; let mAngle = m * 6;
             let svg = `<svg viewBox="0 0 200 200" style="width:100%; max-height:160px;"><circle cx="100" cy="100" r="90" fill="white" stroke="#333" stroke-width="6"/>`;
@@ -251,14 +250,8 @@
             
             // استخدام صورك المحلية
             const pixarAvatars = [
-                'char1.png',
-                'char2.png',
-                'char3.png',
-                'char4.png',
-                'char5.png',
-                'char6.png',
-                'char7.png',
-                'char8.png'
+                'char1.png', 'char2.png', 'char3.png', 'char4.png',
+                'char5.png', 'char6.png', 'char7.png', 'char8.png'
             ];
 
             for(let i=0; i<count; i++) {
@@ -268,18 +261,32 @@
                 
                 const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
                 path.setAttribute("d", `M200,200 L${x1},${y1} A198,198 0 0,1 ${x2},${y2} Z`);
-                path.setAttribute("fill", colors[i % colors.length]); path.setAttribute("stroke", "white"); path.setAttribute("stroke-width", "2");
+                path.setAttribute("fill", colors[i % colors.length]); 
+                path.setAttribute("stroke", "white"); 
+                path.setAttribute("stroke-width", "2");
                 svg.appendChild(path);
                 
                 const mid = start + slice/2;
-                const tx = 200 + 130 * Math.cos(Math.PI * (mid-90)/180); const ty = 200 + 130 * Math.sin(Math.PI * (mid-90)/180);
                 
-                const iconSize = 48;
+                // تعديل المسافة والقطر لتملأ الصورة المثلث بشكل أفضل
+                const imageRadius = 140; 
+                const tx = 200 + imageRadius * Math.cos(Math.PI * (mid-90)/180); 
+                const ty = 200 + imageRadius * Math.sin(Math.PI * (mid-90)/180);
+                
+                // تكبير حجم الصور من 48 إلى 100
+                const iconSize = 100;
+                
                 const img = document.createElementNS("http://www.w3.org/2000/svg", "image");
                 img.setAttribute("href", pixarAvatars[i]);
-                img.setAttribute("x", tx - iconSize/2); img.setAttribute("y", ty - iconSize/2);
-                img.setAttribute("width", iconSize); img.setAttribute("height", iconSize);
+                img.setAttribute("x", tx - iconSize/2); 
+                img.setAttribute("y", ty - iconSize/2);
+                img.setAttribute("width", iconSize); 
+                img.setAttribute("height", iconSize);
+                
+                // إزالة أي احتمال لتشوه الصورة أو ظهور إطارات غير مرغوب بها
+                img.setAttribute("preserveAspectRatio", "xMidYMid meet");
                 img.setAttribute("transform", `rotate(${mid}, ${tx}, ${ty})`);
+                
                 svg.appendChild(img);
             }
         };
