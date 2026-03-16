@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="ar" dir="rtl" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>القرص الدوار - مراجعة بصرية شاملة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #8b5cf6; }
+        body { font-family: 'Baloo Bhaijaan 2', cursive; overflow-x: hidden; overflow-y: auto; user-select: none; }
+
+        /* خلفية الطبيعة المحسنة للأداء */
+        .nature-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 60%, #90EE90 60%, #228B22 100%); z-index: -2; }
+        .sun { position: absolute; top: 50px; right: 50px; width: 100px; height: 100px; background: radial-gradient(circle, #FFD700, #FFA500); border-radius: 50%; box-shadow: 0 0 40px #FFD700; animation: sunPulse 4s infinite alternate; will-change: transform; }
+        @keyframes sunPulse { from { transform: scale(1); } to { transform: scale(1.1); } }
+        
+        .cloud { position: absolute; background: white; border-radius: 50px; opacity: 0.8; will-change: transform; }
+        .cloud::after, .cloud::before { content: ''; position: absolute; background: white; border-radius: 50%; }
+        .c1 { width: 120px; height: 60px; top: 10%; left: -150px; animation: moveCloud 45s linear infinite; }
+        .c1::after { width: 50px; height: 50px; top: -25px; left: 20px; }
+        .c2 { width: 100px; height: 50px; top: 20%; left: -150px; transform: scale(0.8); animation: moveCloud 65s linear infinite 5s; }
+        .c2::after { width: 40px; height: 40px; top: -20px; left: 15px; }
+        @keyframes moveCloud { 0% { transform: translateX(0) scale(var(--s, 1)); } 100% { transform: translateX(120vw) scale(var(--s, 1)); } }
+
+        /* مكونات اللعبة */
+        .wheel-wrapper { position: relative; filter: drop-shadow(0 20px 10px rgba(0,0,0,0.3)); transition: transform 0.3s; }
+        .pointer-container { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); z-index: 30; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.4)); }
+        .glass-panel { background: rgba(255, 255, 255, 0.95); border: 4px solid white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .btn-3d { background: linear-gradient(to bottom, #ef4444, #b91c1c); color: white; border: none; border-radius: 50px; box-shadow: 0 8px 0 #7f1d1d, 0 15px 20px rgba(0,0,0,0.3); transition: all 0.1s; cursor: pointer; }
+        .btn-3d:active { transform: translateY(8px); box-shadow: 0 0 0 #7f1d1d, 0 0 0 rgba(0,0,0,0.3); }
+        
+        .btn-next { background: linear-gradient(to bottom, #3b82f6, #1d4ed8); color: white; border: none; border-radius: 50px; box-shadow: 0 8px 0 #1e3a8a, 0 15px 20px rgba(0,0,0,0.3); transition: all 0.1s; cursor: pointer; padding: 12px 30px; font-size: 1.5rem; font-weight: bold; margin-top: 20px;}
+        .btn-next:active { transform: translateY(8px); box-shadow: 0 0 0 #1e3a8a, 0 0 0 rgba(0,0,0,0.3); }
+
+        .option-btn { background: white; border: 2px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 0 #cbd5e1; transition: transform 0.1s, box-shadow 0.1s, background-color 0.2s; cursor: pointer; }
+        .option-btn:active { transform: translateY(4px); box-shadow: 0 0 0; }
+        .option-btn.correct { background: #86efac !important; border-color: #22c55e !important; box-shadow: 0 4px 0 #15803d !important; color: #14532d !important; }
+        .option-btn.wrong { background: #fca5a5 !important; border-color: #ef4444 !important; box-shadow: 0 4px 0 #b91c1c !important; color: #7f1d1d !important; opacity: 0.7;}
+        .hidden { display: none !important; }
+        
+        /* تحسين أداء القرص الدوار */
+        .wheel-svg { 
+            transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
+            border-radius: 50%; 
+            box-shadow: 0 0 0 10px #fbbf24, 0 0 0 20px #f59e0b, inset 0 0 20px rgba(0,0,0,0.5); 
+            will-change: transform;
+        }
+
+        .visual-aid { background: #ffffff; border-radius: 15px; padding: 10px; margin-bottom: 15px; border: 3px dashed #cbd5e1; display: flex; justify-content: center; align-items: center; min-height: 160px; box-shadow: inset 0 0 10px rgba(0,0,0,0.05);}
+    </style>
+</head>
+<body class="pb-10">
+
+    <div class="nature-bg"><div class="sun"></div><div class="cloud c1" style="--s: 1;"></div><div class="cloud c2" style="--s: 0.8;"></div></div>
+    
+    <button id="muteBtn" onclick="toggleMute()" class="fixed top-4 left-4 z-50 bg-white/90 p-3 rounded-full shadow-lg text-2xl cursor-pointer hover:scale-110 transition-transform border-2 border-purple-200">🔊</button>
+
+    <div id="startScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/70 p-4 overflow-y-auto">
+        <div class="bg-white/95 p-8 md:p-10 rounded-3xl shadow-2xl text-center max-w-2xl w-full border-4 border-yellow-400 m-auto">
+            <div class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-6 bg-white rounded-full flex items-center justify-center shadow-lg border-4 border-purple-100 overflow-hidden">
+                <img src="https://cdn-icons-png.flaticon.com/512/3655/3655598.png" class="w-20 h-20 md:w-24 md:h-24 object-contain" alt="Logo">
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black text-purple-700 mb-2" style="-webkit-text-stroke: 1px white;">تحدي نافس</h1>
+            <p class="text-xl md:text-2xl text-gray-600 mb-6 font-bold">📏 المراجعة البصرية الشاملة 📊</p>
+            <button id="realStartBtn" onclick="startGame()" class="btn-3d text-2xl md:text-4xl font-black py-3 md:py-4 px-12 w-full mb-8">🚀 ابدأ التحدي!</button>
+            <div class="border-t-2 border-dashed border-gray-300 pt-4 mb-2">
+                <h3 class="text-2xl md:text-3xl font-black text-purple-600 mb-1">الصف الخامس</h3>
+                <h4 class="text-lg md:text-xl font-bold text-gray-500">سلطنة عمان 🇴🇲</h4>
+            </div>
+        </div>
+    </div>
+
+    <div id="gameScreen" class="hidden min-h-screen w-full max-w-7xl mx-auto p-2 md:p-4 flex flex-col md:flex-row gap-6 items-center justify-center">
+        <div class="w-full md:w-80 flex flex-col gap-2 md:gap-4 self-start mt-2 md:mt-4">
+            <div class="glass-panel p-2 md:p-4 text-center bg-yellow-50 flex flex-row md:flex-col justify-between items-center md:justify-center">
+                <p class="text-gray-500 font-bold text-sm md:mb-1">الدور على:</p>
+                <h2 id="currentTeamName" class="text-xl md:text-3xl font-black text-purple-700">مجموعة 1</h2>
+            </div>
+            <div class="glass-panel p-2 md:p-4 flex-1 flex flex-col">
+                <div class="flex justify-between items-center border-b pb-2 mb-2">
+                    <h3 class="text-md md:text-lg font-bold text-gray-700">النقاط</h3> <span class="text-xl md:text-2xl">🏆</span>
+                </div>
+                <div id="scoreboard" class="grid grid-cols-2 md:grid-cols-1 gap-2 p-1"></div>
+                <div class="mt-2 text-center bg-purple-100 rounded-lg p-2 font-bold text-purple-800">السؤال: <span id="qNum">1</span> / 32</div>
+            </div>
+        </div>
+
+        <div class="flex-1 flex flex-col items-center justify-center relative w-full mb-10">
+            <div id="wheelSection" class="flex flex-col items-center justify-center transform transition-all duration-500 py-10">
+                <div class="wheel-wrapper mb-8">
+                    <div class="pointer-container">
+                        <svg width="60" height="70" viewBox="0 0 50 60"><path d="M25 60 L0 0 L50 0 Z" fill="#eab308" stroke="#a16207" stroke-width="3"/><circle cx="25" cy="5" r="5" fill="#713f12"/></svg>
+                    </div>
+                    
+                    <svg id="wheel" class="wheel-svg w-[280px] h-[280px] md:w-[500px] md:h-[500px]" viewBox="0 0 400 400">
+                        <circle cx="200" cy="200" r="198" fill="#333" />
+                        <g id="wheelSegments"></g>
+                    </svg>
+
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+                        <div class="w-20 h-20 md:w-28 md:h-28 bg-white rounded-full p-1 shadow-[0_0_20px_rgba(0,0,0,0.4)] border-4 border-gray-200">
+                            <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" class="w-full h-full rounded-full object-cover" alt="Center Avatar">
+                        </div>
+                    </div>
+                </div>
+                <button onclick="triggerSpin()" class="btn-3d text-xl md:text-2xl font-bold py-3 px-12 animate-bounce">🎲 اضغط لتدوير القرص</button>
+            </div>
+
+            <div id="questionSection" class="hidden w-full max-w-3xl transform transition-all duration-500 scale-95 opacity-0 flex flex-col items-center">
+                <div class="flex justify-center mb-4 md:mb-6 w-full">
+                    <div class="bg-white rounded-full w-16 h-16 md:w-24 md:h-24 flex items-center justify-center border-4 md:border-8 border-purple-300 shadow-xl relative z-10">
+                        <span id="timer" class="text-2xl md:text-4xl font-black text-gray-700">60</span>
+                    </div>
+                </div>
+                <div class="glass-panel p-4 md:p-8 relative -mt-8 md:-mt-12 pt-10 md:pt-16 text-center w-full">
+                    <div id="visualAid" class="visual-aid hidden"></div>
+                    <p id="qText" class="text-lg md:text-2xl font-bold text-gray-800 mb-6 leading-relaxed"></p>
+                    <div id="optionsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4"></div>
+                    
+                    <button id="nextBtn" onclick="resolveAnswer()" class="hidden btn-next mx-auto">السؤال التالي ➡️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="resultScreen" class="hidden fixed inset-0 z-[60] bg-black/80 flex items-center justify-center p-4">
+        <div class="bg-white p-6 md:p-10 rounded-3xl shadow-2xl text-center max-w-2xl w-full border-4 border-purple-300 relative">
+            <div class="text-6xl md:text-8xl mb-4">🏆</div>
+            <h2 class="text-3xl md:text-5xl font-black text-purple-700 mb-6">انتهت المسابقة!</h2>
+            <div id="finalRanking" class="bg-gray-50 p-4 rounded-xl mb-8 space-y-2 text-right"></div>
+            <button onclick="location.reload()" class="btn-3d text-xl md:text-2xl font-bold py-3 px-12 w-full">لعبة جديدة 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        const audioFiles = { 
+            bg: new Audio('https://i.top4top.io/m_3694tdvbo1.mp3'), 
+            correct: new Audio('https://a.top4top.io/m_36949p7371.mp3'), 
+            wrong: new Audio('https://b.top4top.io/m_3694toimd1.mp3') 
+        };
+        audioFiles.bg.loop = true; 
+        let isMuted = false;
+
+        const teams = ['فريق الصقور 🦅', 'فريق النمور 🐅', 'فريق الأسود 🦁', 'فريق النسور 🦅'];
+        let rotation = 0; let isSpinning = false;
+        let state = { qList: [], currentQ: null, scores: [0,0,0,0], turn: 0, qCount: 0, timer: null };
+        const colors = ['#f87171', '#fb923c', '#facc15', '#a3e635', '#4ade80', '#22d3ee', '#60a5fa', '#a78bfa'];
+
+        // دوال الرسوميات المحفوظة
+        function createAnalogClock(h, m) {
+            let hAngle = (h % 12 + m / 60) * 30; let mAngle = m * 6;
+            let svg = `<svg viewBox="0 0 200 200" style="width:100%; max-height:160px;"><circle cx="100" cy="100" r="90" fill="white" stroke="#333" stroke-width="6"/>`;
+            for(let i=0; i<12; i++) {
+                let a = i * 30 * Math.PI/180;
+                let x1 = 100 + 75 * Math.sin(a), y1 = 100 - 75 * Math.cos(a);
+                let x2 = 100 + 85 * Math.sin(a), y2 = 100 - 85 * Math.cos(a);
+                svg += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#333" stroke-width="3"/>`;
+            }
+            let hx = 100 + 45 * Math.sin(hAngle * Math.PI/180), hy = 100 - 45 * Math.cos(hAngle * Math.PI/180);
+            let mx = 100 + 70 * Math.sin(mAngle * Math.PI/180), my = 100 - 70 * Math.cos(mAngle * Math.PI/180);
+            svg += `<line x1="100" y1="100" x2="${hx}" y2="${hy}" stroke="black" stroke-width="6" stroke-linecap="round"/><line x1="100" y1="100" x2="${mx}" y2="${my}" stroke="red" stroke-width="4" stroke-linecap="round"/><circle cx="100" cy="100" r="6" fill="#333"/></svg>`;
+            return svg;
+        }
+
+        function createProbabilityBag(ballsColors) {
+            let circles = ballsColors.map((c, i) => {
+                let x = 70 + (i % 3) * 30; let y = 100 + Math.floor(i / 3) * 30;
+                return `<circle cx="${x}" cy="${y}" r="12" fill="${c}" stroke="#fff" stroke-width="2"/>`;
+            }).join('');
+            return `<svg viewBox="0 0 200 200" style="width:100%; max-height:160px;"><path d="M50,70 Q50,180 100,180 Q150,180 150,70 Q130,40 100,30 Q70,40 50,70 Z" fill="#d4a373" stroke="#a98467" stroke-width="4"/><rect x="80" y="20" width="40" height="15" rx="5" fill="#faedcd" stroke="#a98467" stroke-width="2"/>${circles}</svg>`;
+        }
+
+        function createBarChart(labels, values, barColors) {
+            let maxVal = Math.max(...values, 10); 
+            let bars = values.map((v, i) => {
+                let h = (v / maxVal) * 100; let y = 130 - h; let x = 40 + i * 50;
+                return `<rect x="${x}" y="${y}" width="30" height="${h}" fill="${barColors[i]}" stroke="#333" stroke-width="2"/><text x="${x + 15}" y="150" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">${labels[i]}</text><text x="${x + 15}" y="${y - 5}" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">${v}</text>`;
+            }).join('');
+            return `<svg viewBox="0 0 200 160" style="width:100%; max-height:160px;"><line x1="20" y1="130" x2="190" y2="130" stroke="#333" stroke-width="3"/><line x1="20" y1="20" x2="20" y2="130" stroke="#333" stroke-width="3"/>${bars}</svg>`;
+        }
+
+        function createLineGraph(y1, y2, l1, l2) {
+            let h1 = y1 * 4; let h2 = y2 * 4; let py1 = 130 - h1; let py2 = 130 - h2;
+            return `<svg viewBox="0 0 200 160" style="width:100%; max-height:160px;"><line x1="20" y1="130" x2="190" y2="130" stroke="#333" stroke-width="3"/><line x1="20" y1="20" x2="20" y2="130" stroke="#333" stroke-width="3"/><circle cx="60" cy="${py1}" r="5" fill="red"/><circle cx="140" cy="${py2}" r="5" fill="red"/><line x1="60" y1="${py1}" x2="140" y2="${py2}" stroke="#3b82f6" stroke-width="4"/><text x="60" y="150" text-anchor="middle" font-size="14" font-weight="bold">${l1}</text><text x="140" y="150" text-anchor="middle" font-size="14" font-weight="bold">${l2}</text><text x="60" y="${py1 - 10}" text-anchor="middle" font-size="14" font-weight="bold">${y1}°</text><text x="140" y="${py2 - 10}" text-anchor="middle" font-size="14" font-weight="bold">${y2}°</text></svg>`;
+        }
+
+        function createLineSegment(label) {
+            return `<svg viewBox="0 0 200 60" style="width:100%; max-height:80px;"><line x1="20" y1="40" x2="180" y2="40" stroke="#0ea5e9" stroke-width="6" stroke-linecap="round"/><line x1="20" y1="25" x2="20" y2="55" stroke="#333" stroke-width="3" stroke-linecap="round"/><line x1="180" y1="25" x2="180" y2="55" stroke="#333" stroke-width="3" stroke-linecap="round"/><text x="100" y="20" text-anchor="middle" font-size="20" font-weight="bold" fill="#1e293b">${label}</text></svg>`;
+        }
+
+        function createRectangle(wLabel, hLabel, widthPx, heightPx, color="#bae6fd") {
+            let x = (300 - widthPx) / 2; let y = (150 - heightPx) / 2;
+            let svg = `<svg viewBox="0 0 300 150" style="width:100%; max-height:150px;"><rect x="${x}" y="${y}" width="${widthPx}" height="${heightPx}" fill="${color}" stroke="#0284c7" stroke-width="3"/><text x="${x + widthPx/2}" y="${y - 10}" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">${wLabel}</text><text x="${x - 10}" y="${y + heightPx/2 + 6}" text-anchor="end" font-size="18" font-weight="bold" fill="#0f172a">${hLabel}</text></svg>`;
+            return svg;
+        }
+
+        function createPolygon(sides, sideLabel, color="#fde047") {
+            let points = [];
+            for(let i=0; i<sides; i++) {
+                let angle = (i * 2 * Math.PI / sides) - (Math.PI / 2);
+                let x = 100 + 70 * Math.cos(angle); let y = 100 + 70 * Math.sin(angle);
+                points.push(`${x},${y}`);
+            }
+            return `<svg viewBox="0 0 200 200" style="width:100%; max-height:150px;"><polygon points="${points.join(' ')}" fill="${color}" stroke="#ca8a04" stroke-width="4" stroke-linejoin="round"/><text x="100" y="105" text-anchor="middle" font-size="22" font-weight="bold" fill="#3f3f46">${sideLabel}</text></svg>`;
+        }
+
+        function createDigitalClock(timeText, color="#e2e8f0") {
+            return `<svg viewBox="0 0 200 100" style="width:100%; max-height:100px;"><rect x="20" y="20" width="160" height="60" rx="10" fill="${color}" stroke="#475569" stroke-width="4"/><text x="100" y="60" text-anchor="middle" font-size="32" font-family="monospace" font-weight="bold" fill="#0f172a" letter-spacing="2">${timeText}</text></svg>`;
+        }
+
+        const questions = [
+            { q: "الرسم البياني يوضح الرياضة المفضلة للطلاب. بكم يزيد عدد محبي كرة القدم عن السلة؟", svg: createBarChart(['قدم', 'سلة', 'طائرة'], [12, 6, 8], ['#3b82f6', '#ef4444', '#22c55e']), o: ["6 طلاب", "18 طالباً", "12 طالباً", "4 طلاب"], a: 0 },
+            { q: "ما هو إجمالي عدد الطلاب الذين يفضلون التفاح والموز بناءً على الرسم؟", svg: createBarChart(['تفاح', 'موز'], [8, 4], ['#ef4444', '#eab308']), o: ["12 طالباً", "4 طلاب", "8 طلاب", "10 طلاب"], a: 0 },
+            { q: "مخطط فن يحتوي على دائرتين متقاطعتين، منطقة التقاطع بالمنتصف تمثل:", o: ["البيانات المشتركة", "جميع البيانات", "البيانات غير المشتركة", "لا شيء مما سبق"], a: 0 },
+            { q: "في هذا الكيس، ما هو اللون الذي فرصة سحبه هي الأكثر ترجيحاً؟", svg: createProbabilityBag(['#ef4444', '#ef4444', '#ef4444', '#3b82f6']), o: ["الأحمر", "الأزرق", "الأخضر", "الأصفر"], a: 0 },
+            { q: "إذا سحبنا كرة دون النظر، فما فرصة سحب كرة خضراء من هذا الكيس؟", svg: createProbabilityBag(['#ef4444', '#ef4444', '#3b82f6', '#3b82f6']), o: ["مستحيل", "مؤكد", "متساوٍ", "مرجح"], a: 0 },
+            { q: "في هذا الكيس جميع الكرات زرقاء. ما احتمال سحب كرة زرقاء؟", svg: createProbabilityBag(['#3b82f6', '#3b82f6', '#3b82f6', '#3b82f6']), o: ["مؤكد", "مستحيل", "متساوٍ", "غير مرجح"], a: 0 },
+            { q: "عند رمي عملة معدنية، ما احتمال ظهور الصورة؟", o: ["فرصة متساوية", "مؤكد", "مستحيل", "غير مرجح"], a: 0 },
+            { q: "يوضح الرسم تغير درجة الحرارة. كم كانت الزيادة في الحرارة بين الساعة 10 والساعة 12؟", svg: createLineGraph(20, 25, '10:00', '12:00'), o: ["5 درجات", "10 درجات", "25 درجة", "45 درجة"], a: 0 },
+            { q: "شمعة طولها 18 سم. بعد ساعة أصبح طولها 14 سم. كم سنتيمتر احترق منها؟", o: ["4 سم", "18 سم", "14 سم", "32 سم"], a: 0 },
+            { q: "من خلال الرسم البياني، ما هو اللون المنوال (الأكثر تكراراً)؟", svg: createBarChart(['أحمر', 'أزرق', 'أخضر'], [3, 7, 2], ['#ef4444', '#3b82f6', '#22c55e']), o: ["الأزرق", "الأحمر", "الأخضر", "الجميع"], a: 0 },
+            { q: "ما هو المنوال لمجموعة الأعداد الآتية: 2، 3، 4، 3، 5؟", o: ["3", "2", "4", "5"], a: 0 },
+            { q: "أوزان طلاب: 30، 32، 30، 35، 30. المنوال هو:", o: ["30", "32", "35", "لا يوجد"], a: 0 },
+            { q: "كم مليمتر في هذا الخط؟", svg: createLineSegment("5 سم"), o: ["50 ملم", "5 ملم", "500 ملم", "10 ملم"], a: 0 },
+            { q: "كم سنتيمتر يبلغ طول هذا الشريط؟", svg: createLineSegment("40 ملم"), o: ["4 سم", "400 سم", "10 سم", "40 سم"], a: 0 },
+            { q: "كم يساوي طول هذا الجدار بالسنتيمتر؟", svg: createLineSegment("3 أمتار"), o: ["300 سم", "30 سم", "3000 سم", "3 سم"], a: 0 },
+            { q: "كم تشير الساعة التناظرية (ذات العقارب) الآن؟", svg: createAnalogClock(2, 15), o: ["2:15", "3:10", "1:15", "2:45"], a: 0 },
+            { q: "إذا استمرت الحصة 45 دقيقة وبدأت في هذا الوقت. متى ستنتهي؟", svg: createAnalogClock(8, 0), o: ["8:45", "9:00", "8:30", "9:15"], a: 0 },
+            { q: "هذه الساعة تشير إلى نظام 24 ساعة. ما هو الوقت بنظام 12 ساعة؟", svg: createDigitalClock("14:30"), o: ["2:30 مساءً", "2:30 صباحاً", "4:30 مساءً", "14:30 صباحاً"], a: 0 },
+            { q: "بدأت الحصة كما في الساعة. وانتهت 9:00. كم مدتها؟", svg: createDigitalClock("08:15"), o: ["45 دقيقة", "30 دقيقة", "ساعة", "15 دقيقة"], a: 0 },
+            { q: "كم دقيقة في ساعتين ونصف؟", o: ["150 دقيقة", "120 دقيقة", "90 دقيقة", "180 دقيقة"], a: 0 },
+            { q: "إذا كان اليوم هو 5 أكتوبر، فما هو تاريخ نفس اليوم من الأسبوع القادم؟", o: ["12 أكتوبر", "10 أكتوبر", "15 أكتوبر", "11 أكتوبر"], a: 0 },
+            { q: "كم عدد الأيام في شهر فبراير في السنة الكبيسة؟", o: ["29 يوماً", "28 يوماً", "30 يوماً", "31 يوماً"], a: 0 },
+            { q: "كم شهرًا في 3 سنوات؟", o: ["36 شهرًا", "24 شهرًا", "48 شهرًا", "30 شهرًا"], a: 0 },
+            { q: "ما هي مساحة هذا المستطيل الموضح بالشكل؟", svg: createRectangle("6 سم", "4 سم", 160, 100, "#fbcfe8"), o: ["24 سم²", "10 سم²", "20 سم²", "12 سم²"], a: 0 },
+            { q: "مربع مساحته 25 سم². ما طول ضلعه؟", svg: createRectangle("؟ سم", "؟ سم", 100, 100, "#fef08a"), o: ["5 سم", "10 سم", "12.5 سم", "20 سم"], a: 0 },
+            { q: "ملعب مستطيل الموضح بالشكل، مساحته تساوي:", svg: createRectangle("10 م", "5 م", 180, 90, "#bbf7d0"), o: ["50 م²", "30 م²", "15 م²", "100 م²"], a: 0 },
+            { q: "مساحة مستطيل 30 سم² وعرضه 5 سم، فإن طوله يساوي:", o: ["6 سم", "25 سم", "35 سم", "150 سم"], a: 0 },
+            { q: "ما محيط هذا المثلث متطابق الأضلاع؟", svg: createPolygon(3, "7 سم", "#bbf7d0"), o: ["21 سم", "14 سم", "28 سم", "10 سم"], a: 0 },
+            { q: "مستطيل محيطه 20 سم وطوله 6 سم كما في الشكل، كم عرضه؟", svg: createRectangle("6 سم", "؟", 180, 80, "#bae6fd"), o: ["4 سم", "8 سم", "14 سم", "2 سم"], a: 0 },
+            { q: "هذا الخماسي المنتظم، كم يبلغ محيطه؟", svg: createPolygon(5, "4 سم", "#e9d5ff"), o: ["20 سم", "16 سم", "24 سم", "9 سم"], a: 0 },
+            { q: "مربع طول ضلعه 8 سم، محيطه يساوي:", o: ["32 سم", "64 سم", "16 سم", "24 سم"], a: 0 },
+            { q: "ما ناتج ضرب 40 × 9 ذهنيًا؟", o: ["360", "36", "49", "409"], a: 0 }
+        ];
+
+        // الرسم المسبق للقرص الدوار باستخدام صور بيكسار المحلية
+        window.onload = () => {
+            const svg = document.getElementById('wheelSegments');
+            const count = 8; const slice = 360 / count;
+            
+            // استخدام صورك المحلية
+            const pixarAvatars = [
+                'char1.png',
+                'char2.png',
+                'char3.png',
+                'char4.png',
+                'char5.png',
+                'char6.png',
+                'char7.png',
+                'char8.png'
+            ];
+
+            for(let i=0; i<count; i++) {
+                const start = i * slice; const end = (i+1) * slice;
+                const x1 = 200 + 198 * Math.cos(Math.PI * (start-90)/180); const y1 = 200 + 198 * Math.sin(Math.PI * (start-90)/180);
+                const x2 = 200 + 198 * Math.cos(Math.PI * (end-90)/180); const y2 = 200 + 198 * Math.sin(Math.PI * (end-90)/180);
+                
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute("d", `M200,200 L${x1},${y1} A198,198 0 0,1 ${x2},${y2} Z`);
+                path.setAttribute("fill", colors[i % colors.length]); path.setAttribute("stroke", "white"); path.setAttribute("stroke-width", "2");
+                svg.appendChild(path);
+                
+                const mid = start + slice/2;
+                const tx = 200 + 130 * Math.cos(Math.PI * (mid-90)/180); const ty = 200 + 130 * Math.sin(Math.PI * (mid-90)/180);
+                
+                const iconSize = 48;
+                const img = document.createElementNS("http://www.w3.org/2000/svg", "image");
+                img.setAttribute("href", pixarAvatars[i]);
+                img.setAttribute("x", tx - iconSize/2); img.setAttribute("y", ty - iconSize/2);
+                img.setAttribute("width", iconSize); img.setAttribute("height", iconSize);
+                img.setAttribute("transform", `rotate(${mid}, ${tx}, ${ty})`);
+                svg.appendChild(img);
+            }
+        };
+
+        function startGame() {
+            // تحميل مبدئي صامت للصوتيات لتجنب تعليق المتصفح لاحقاً
+            if(!isMuted) {
+                audioFiles.bg.play().catch(()=>{});
+                let p1 = audioFiles.correct.play(); if(p1) p1.then(()=>{audioFiles.correct.pause(); audioFiles.correct.currentTime=0;}).catch(()=>{});
+                let p2 = audioFiles.wrong.play(); if(p2) p2.then(()=>{audioFiles.wrong.pause(); audioFiles.wrong.currentTime=0;}).catch(()=>{});
+            }
+
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+            document.getElementById('gameScreen').style.display = 'flex';
+            
+            state.qList = [...questions].sort(() => Math.random() - 0.5);
+            updateUI();
+        }
+
+        function triggerSpin() {
+            if(isSpinning || state.qList.length === 0) return;
+            isSpinning = true;
+            const extraSpins = 1800; const randomAngle = Math.floor(Math.random() * 360);
+            rotation += extraSpins + randomAngle;
+            document.getElementById('wheel').style.transform = `rotate(${rotation}deg)`;
+            
+            setTimeout(() => { 
+                setTimeout(() => { isSpinning = false; showQuestion(); }, 2000); 
+            }, 4000); 
+        }
+
+        function showQuestion() {
+            state.currentQ = state.qList.pop();
+            const qSection = document.getElementById('questionSection');
+            const wheelSection = document.getElementById('wheelSection');
+            const visualAid = document.getElementById('visualAid');
+            
+            wheelSection.style.display = 'none'; 
+            document.getElementById('nextBtn').classList.add('hidden'); 
+            qSection.classList.remove('hidden');
+            setTimeout(() => { qSection.classList.remove('scale-95', 'opacity-0'); qSection.classList.add('scale-100', 'opacity-100'); }, 50);
+
+            if (state.currentQ.svg) {
+                visualAid.innerHTML = state.currentQ.svg;
+                visualAid.classList.remove('hidden');
+            } else {
+                visualAid.innerHTML = '';
+                visualAid.classList.add('hidden');
+            }
+
+            document.getElementById('qText').textContent = state.currentQ.q;
+            const grid = document.getElementById('optionsGrid'); grid.innerHTML = '';
+            
+            let ops = state.currentQ.o.map((txt, i) => ({txt, i})).sort(() => Math.random() - 0.5);
+
+            ops.forEach((op) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn w-full p-4 text-xl font-bold text-gray-700 h-full';
+                btn.textContent = op.txt; 
+                btn.onclick = () => checkAnswer(op.i, btn);
+                grid.appendChild(btn);
+            });
+            startTimer();
+        }
+
+        function startTimer() {
+            let t = 60; document.getElementById('timer').textContent = t;
+            if(state.timer) clearInterval(state.timer);
+            state.timer = setInterval(() => { 
+                t--; document.getElementById('timer').textContent = t; 
+                if(t <= 0) { clearInterval(state.timer); forceShowAnswer(); } 
+            }, 1000);
+        }
+
+        function forceShowAnswer() {
+            const btns = document.querySelectorAll('.option-btn');
+            btns.forEach(b => {
+                b.disabled = true;
+                if(b.textContent === state.currentQ.o[state.currentQ.a]) b.classList.add('correct');
+            });
+            playSfx('wrong');
+            document.getElementById('nextBtn').classList.remove('hidden');
+        }
+
+        function checkAnswer(idx, btn) {
+            clearInterval(state.timer);
+            const btns = document.querySelectorAll('.option-btn');
+            btns.forEach(b => b.disabled = true);
+            
+            if(idx === state.currentQ.a) {
+                btn.classList.add('correct'); playSfx('correct');
+                state.scores[state.turn]++;
+            } else {
+                btn.classList.add('wrong'); playSfx('wrong');
+                btns.forEach(b => { if(b.textContent === state.currentQ.o[state.currentQ.a]) b.classList.add('correct'); });
+            }
+            document.getElementById('nextBtn').classList.remove('hidden');
+        }
+
+        function resolveAnswer() {
+            state.qCount++; state.turn = (state.turn + 1) % 4;
+            if(state.qCount >= 32) endGame();
+            else {
+                document.getElementById('questionSection').classList.add('hidden', 'scale-95', 'opacity-0');
+                document.getElementById('wheelSection').style.display = 'flex';
+                document.getElementById('qNum').textContent = state.qCount + 1;
+                updateUI();
+            }
+        }
+
+        function updateUI() {
+            document.getElementById('currentTeamName').textContent = teams[state.turn];
+            const board = document.getElementById('scoreboard'); board.innerHTML = '';
+            teams.forEach((t, i) => {
+                const div = document.createElement('div');
+                div.className = `flex justify-between p-2 rounded-lg items-center ${i === state.turn ? 'bg-purple-100 border-2 border-purple-400' : 'bg-white border border-gray-100'}`;
+                div.innerHTML = `<span>${t}</span><span class="font-black text-xl text-green-600">${state.scores[i]}</span>`;
+                board.appendChild(div);
+            });
+        }
+
+        function endGame() {
+            document.getElementById('gameScreen').classList.add('hidden'); 
+            document.getElementById('resultScreen').classList.remove('hidden');
+            const ranking = teams.map((t, i) => ({name: t, s: state.scores[i]})).sort((a,b) => b.s - a.s);
+            const rankDiv = document.getElementById('finalRanking');
+            ranking.forEach((r, i) => {
+                rankDiv.innerHTML += `<div class="flex justify-between p-3 border-b"><span>#${i+1} ${r.name}</span><span class="font-bold text-xl text-purple-600">${r.s} نقطة</span></div>`;
+            });
+        }
+
+        function playSfx(name) { if(!isMuted) { audioFiles[name].currentTime = 0; let p = audioFiles[name].play(); if(p) p.catch(()=>{}); } }
+        function playBackgroundMusic() { if(!isMuted) { let p = audioFiles.bg.play(); if(p) p.catch(()=>{}); } }
+        function toggleMute() { isMuted = !isMuted; document.getElementById('muteBtn').textContent = isMuted ? '🔇' : '🔊'; if(isMuted) audioFiles.bg.pause(); else playBackgroundMusic(); }
+
+    </script>
+</body>
+</html>
